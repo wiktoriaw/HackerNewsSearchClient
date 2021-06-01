@@ -1,0 +1,30 @@
+<div class="content" role="main">
+    <mat-card class="card-style">
+        <mat-card-title>Hacker News Search Client</mat-card-title>
+        <mat-card-content>
+            <form [formGroup]="searchForm">
+                <mat-form-field appearance="outline">
+                    <mat-icon matPrefix>search</mat-icon>
+                    <input matInput type="text" placeholder="Search" formControlName="search">
+                </mat-form-field>
+            </form>
+            <mat-list *ngIf="result">
+                <mat-list-item *ngFor="let story of result?.hits">
+                    <a target="_blank" [href]="story.url">{{story.title}}</a>
+                </mat-list-item>
+            </mat-list>
+            <mat-divider *ngIf="result"></mat-divider>
+            <div *ngIf="result" class="pagination">
+                <button type="button" mat-raised-button color="primary" [disabled]="currentPage === 1"
+                    (click)="prevPage()">
+                    <mat-icon>navigate_before</mat-icon>Previous
+                </button>
+                <div>{{currentPage}} of {{result?.nbPages}}</div>
+                <button type="button" mat-raised-button color="primary" [disabled]="currentPage === result?.nbPages"
+                    (click)="nextPage()">Next
+                    <mat-icon>navigate_next</mat-icon>
+                </button>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
