@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, tap } from 'rxjs/operators';
 import { IResponse } from '../models/interface.model';
 import { SearchService } from '../services/search.service';
 
@@ -21,6 +21,8 @@ export class SearchComponent implements OnInit {
 	});
 
 	get search() { return this.searchForm.get('search') }
+	get isPrevButtonDisabled() { return this.currentPage === 1 }
+	get isNextButtonDisabled() { return this.currentPage === this.result?.nbPages || this.result?.nbPages === 0}
 
 	constructor(private searchService: SearchService) { }
 
@@ -43,14 +45,14 @@ export class SearchComponent implements OnInit {
 	}
 
 	nextPage() {
-		this.pageNo += 1;
-		this.currentPage += 1;
+		this.pageNo++;
+		this.currentPage++;
 		this.getSearchResult();
 	}
 
 	prevPage() {
-		this.pageNo -= 1;
-		this.currentPage -= 1;
+		this.pageNo--;
+		this.currentPage--;
 		this.getSearchResult();
 	}
 
